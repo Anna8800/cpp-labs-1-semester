@@ -1,5 +1,5 @@
 ﻿using namespace std;
-#include "other.h"
+#include "lab4_other.h"
 #include <limits.h>
 #include <cstdlib>
 #include <cstdarg>
@@ -32,22 +32,33 @@ void swap(int& x, int& y) {
 	y = tmp;
 }
 
+
 //task 3a
-int findMin(int ar[][M], int row) {
+int findMin(const int ar[], int len)
+{
 	int Min = INT_MAX;
-	for (int i = 0; i < row; i++) {
-		for (int j = 0; j < M; j++) {
-			if (ar[i][j] < Min) { Min = ar[i][j]; }
-		}
+	for (int i = 0; i < len; i++) {
+		if (ar[i] < Min) { Min = ar[i]; }
 	}
 	return Min;
 }
+
+int findMin(const int ar[][M], int row) {
+	// use findMin(int ar[], int len)
+	int Min = INT_MAX;
+	for (int i = 0; i < row; i++) {
+		int mm = findMin(ar[i], M);
+		if (mm < Min) { Min = mm; }
+	}
+	return Min;
+}
+
 int findMin(int** p, int rows, int cols) {
 	int Min = INT_MAX;
 	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < cols; j++) {
-			if (p[i][j] < Min) { Min = p[i][j]; }
-		}
+		// use findMin(int ar[], int len)
+		int mm = findMin(p[i], cols);
+		if (mm < Min) { Min = mm; }
 	}
 	return Min;
 }
@@ -93,8 +104,8 @@ void DayOfMonth(int day_of_year, int month, int year, int (&ar)[2][12], int* res
 			num_month++;
 		}
 	}
-	*res_day = day_month;
-	*res_month = num_month + 1;
+	if (res_day) *res_day = day_month;
+	if (res_month) *res_month = num_month + 1;
 }
 
 //task 5
@@ -122,7 +133,7 @@ void Print_arr(const int ar[], int size) {
 
 //task 6
 int Recursive_f(int n) {
-	if (n <= 1) return 1;
+	if (n <= 0) return 0;
 	else {
 		return n + Recursive_f(n - 1);
 	}
@@ -166,6 +177,7 @@ void VarArgsMacros(int arg1, ...) {
 }
 //task 8
 int* MyMin(int arr[], int len) {
+	if (len == 0) return nullptr;
 	int* p = arr;
 	for (int i = 0; i < len; i++) {
 		if (arr[i] < *p) {
