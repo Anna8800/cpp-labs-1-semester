@@ -208,6 +208,7 @@ int _tmain()
 	//////////////////////////////////////////////////////////////////////////////////////
 
 		//III Тема. Структуры С.	
+	printf("Item III. Structures.\n");
 	{
 		//Задание 1. Объявите структуру BOOK, описывающую книгу
 		//(автор, заглавие, год издания, цена, категория…).
@@ -215,41 +216,105 @@ int _tmain()
 		//Подсказка: объявление структуры рекомендуется выносить
 		//в заголовочный файл.
 
-
-
-	} 
-	{
+	
 		//Задание 2. Создайте разными способами (глобальный, локальный, статический,
 		//динамический) экземпляры (объекты) типа BOOK (без инициализации).
 		//Определите - сколько памяти отводит компилятор под каждый
 		//такой объект. Как инициализируются (или не инициализируются) поля
 		//структуры. Подумайте: от чего зависит объем выделяемой памяти?
+		printf("task 2\n");
+
+		BOOK globalBook; //глобальный экземпляр
+		printf("global size = ");
+		printf("% zu\n", sizeof(globalBook));
+		BOOK localBook;  //локальный экземпляр
+		printf("local size = ");
+		printf("%zu\n", sizeof(localBook));
+		BOOK staticBook; //статический экземпляр
+		printf("static size = ");
+		printf("%zu\n", sizeof(staticBook));
+		// для глобального, статического, локального экземпляров объем выделяемой памяти = 160 байт
+		// char author[50] = 50 байт
+		// char title[100] = 100 байт
+		// short year = 2 байта
+		// int price = 4 байта
+		// Category category = 4 байта
+
+		BOOK* dynamicBook = new BOOK; //динамический экземпляр
+		printf("dynamic size = ");
+		printf("%zu\n", sizeof(dynamicBook));
+		// dynamicBook - указатель на объект типа BOOK, занимает 4 байта
+		// сам объект, на который указывает указатель будет занимать 160+4 байта
 
 
-	}
-	{
 		//Задание 3. Заполните поля созданных объектов.
 		//Замечание: если для хранения строки используется массив, необходимо
 		//предусмотреть "защиту" от выхода за границы массива.
+		const int len_author = 50;
+		const int len_title = 100;
+		char* slice_au = new char[len_author];
+		char* slice_t = new char[len_title];
 
+		const char author_g[] = "S. King111111111111111111111111111111111111111111111111111111111111111111111111";
+		const char title_g[] = "The Dark Tower";
+		slice_au = Cut_off_string(author_g, len_author, slice_au); //функция, реализующая защиту от переполнения массива
+		strcpy_s(globalBook.author, slice_au);
+		slice_t = Cut_off_string(title_g, len_title, slice_t); 
+		strcpy_s(globalBook.title, slice_t);
+		globalBook.year = 2004;
+		globalBook.price = 1500;
+		globalBook.category = Category::SCIENCE_FICTION;
+	
+		const char author_l[] = "F. M. Dostoevsky";
+		const char title_l[] = "Crime and Punishment";
+		slice_au = Cut_off_string(author_l, len_author, slice_au);
+		strcpy_s(localBook.author, slice_au);
+		slice_t = Cut_off_string(title_l, len_title, slice_t);
+		strcpy_s(localBook.title, slice_t);
+		localBook.year = 1866;
+		localBook.price = 1000;
+		localBook.category = Category::CLASSIC;
 
-	}
-	{
+		const char author_s[] = "K. Chukovsky";
+		const char title_s[] = "Buzzy-Wuzzy Busy Fly";
+		slice_au = Cut_off_string(author_s, len_author, slice_au); //функция, реализующая защиту от переполнения массива
+		strcpy_s(staticBook.author, slice_au);
+		slice_t = Cut_off_string(title_s, len_title, slice_t);
+		strcpy_s(staticBook.title, slice_t);
+		staticBook.year = 1923;
+		staticBook.price = 600;
+		staticBook.category = Category::FAIRY_TALE;
+
+		const char author_d[] = "R. Bradbury";
+		const char title_d[] = "The Screaming Woman";
+		slice_au = Cut_off_string(author_d, len_author, slice_au); //функция, реализующая защиту от переполнения массива
+		strcpy_s(dynamicBook->author, slice_au);
+		slice_t = Cut_off_string(title_d, len_title, slice_t);
+		strcpy_s(dynamicBook->title, slice_t);
+		dynamicBook->year = 1955;
+		dynamicBook->price = 900;
+		dynamicBook->category = Category::SHORT_STORIES;
+
 		//Задание 4. Напишите функцию, выводящую на экран реквизиты книги.
 		//Подумайте: как эффективнее передавать экземпляр BOOK в функцию.
 		//Для вывода на консоль используйте функцию стандартной библиотеки
 		//printf
 
 
-	}
-	{
+	
+	
 		//Задание 5. Напишите функцию для формирования полей структуры.
 		//Для ввода используйте функцию стандартной библиотеки scanf
 		//Замечание: неплохо заложить в такую функцию возможность проверки
 		//корректности введенного значения, например, год издания не может быть
-		//меьше, чем... (год появления письменности), категорию ползователь
+		//меьше, чем... (год появления письменности), категорию пользователь
 		//должен выбирать из существующих, цена не может быть отрицательной...
 
+
+		delete[] slice_au;
+		delete[] slice_t;
+		delete dynamicBook;
 	}
+	
 	return 0;
 }//main

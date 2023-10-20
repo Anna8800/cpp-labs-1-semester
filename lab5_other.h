@@ -1,4 +1,17 @@
-﻿
+﻿enum class Category {
+	CLASSIC,
+	SCIENCE_FICTION,
+	FAIRY_TALE,
+	SHORT_STORIES,
+};
+struct BOOK {
+	char author[50];
+	char title[100];
+	short year;
+	int price;
+	Category category;
+};
+
 //Прототипы используемых в данном задании функций:
 double Sum(double, double);
 double Sub(double, double);
@@ -20,3 +33,4 @@ const char* GetString2();
 const char* GetString3();
 const char* GetString4();
 const char* GetString5();
+char* Cut_off_string(const char* origin, int length, char* slice);

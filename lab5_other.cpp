@@ -112,3 +112,19 @@ const char* GetString4() {
 const char* GetString5() {
 	return "All we have to decide is what to do with the time that is given to us.\n";
 }
+ //task 3
+char* Cut_off_string(const char* origin, int length, char* slice) {
+	if (strlen(origin) > (length - 1)) {
+		printf("Error: too many symbols! \n");
+		strncpy_s(slice, length, origin, length - 1);
+		//slice - указатель на строку-приемник, куда будут копироваться символы;
+		//length - размер буфера origin, выраженный в байтах;
+		//origin - указатель на строку-источник, откуда будут копироваться символы;
+		//length-1 - максимальное количество символов, которые можно скопировать из origin в slice, включая завершающий нулевой символ.
+		slice[length - 1] = '\0';
+	}
+	else {strcpy_s(slice, length, origin);}
+
+	return slice;
+}
+ //task 4
