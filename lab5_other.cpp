@@ -128,3 +128,84 @@ char* Cut_off_string(const char* origin, int length, char* slice) {
 	return slice;
 }
  //task 4
+const char* categor_str(Category category) { //для приведения категории к строке
+	switch (category) {
+	case Category::CLASSIC:
+		return "Classic";
+	case Category::SCIENCE_FICTION:
+		return "Science Fiction";
+	case Category::FAIRY_TALE:
+		return "Fairy Tale";
+	case Category::SHORT_STORIES:
+		return "Short Stories";
+	default: 
+		return "help me";
+	}
+}
+void Print_book(const BOOK &book) {
+	printf("Author: %s\n", book.author);
+	printf("Title: %s\n", book.title);
+	printf("Year: %hd\n", book.year);
+	printf("Price: %d\n", book.price);
+	const char* categ = categor_str(book.category);
+	printf("Category: %s\n", categ);
+	printf(" \n");
+}
+ //task 5
+void Fill_struct(BOOK& book) {
+	const int len_author = 50;
+	const int len_title = 100;
+	
+	printf("Enter author of the book: ");
+	scanf_s(" %49[^\n]", book.author, len_author); //ограничиваем число символов, которые могут быть прочитаны
+	while (getchar() != '\n'); //очистка буфера
+
+	printf("Enter title of the book: ");
+	scanf_s(" %99[^\n]", book.title, len_title);
+	while (getchar() != '\n');
+
+	short year_n;
+	printf("Enter year of publishing: ");
+	while (true){
+		scanf_s("%hd", &year_n);
+		if ((year_n < -6000) || (year_n > 2023)) {
+			printf("Error! Too small or too big year of publishing. Try again:");
+			while (getchar() != '\n');
+			continue;
+		}
+		else {
+			book.year = year_n;
+			break;
+		}
+	}
+
+	int price_n;
+	printf("Enter price of the book: ");
+	while (true) {
+		scanf_s("%d", &price_n);
+		if (price_n<0) {
+			printf("Error! Too small price. Try again:");
+			while (getchar() != '\n');
+			continue;
+		}
+		else {
+			book.price = price_n;
+			break;
+		}
+	}
+
+	int categor_n;
+	printf("Enter category of the book: (1 - Classic, 2 - Science Fiction, 3 - Fairy Tale, 4 - Short Stories): ");
+	while (true){
+		scanf_s("%d", &categor_n);
+		if (categor_n >= 0 && categor_n < 5) {
+			book.category = static_cast<Category>(categor_n - 1);
+			break;
+		}
+		else {
+			printf("Wrong value of category! Try again: ");
+			while (getchar() != '\n');
+			continue;
+		}
+	}
+}

@@ -34,3 +34,6 @@ const char* GetString3();
 const char* GetString4();
 const char* GetString5();
 char* Cut_off_string(const char* origin, int length, char* slice);
+void Print_book(const BOOK &book);
+const char* categor_str(Category category);
+void Fill_struct(BOOK& book);
