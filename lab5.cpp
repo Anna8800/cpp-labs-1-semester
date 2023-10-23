@@ -69,7 +69,7 @@ int _tmain()
 		while (continueCalc) {
 			double (*func) (double, double) = nullptr;
 			printf("Enter your task: ");
-			scanf_s("%lf  %c %lf", &x, &operat, 1, &y); //предовтращение переполнения буфера - ждем одно значение, получаем одно значение
+			scanf_s("%lf %c %lf", &x, &operat, 1, &y); //предовтращение переполнения буфера - ждем одно значение, получаем одно значение
 			switch (operat) {
 			case '+':
 				func = Sum;
@@ -289,7 +289,7 @@ int _tmain()
 
 		const char author_d[] = "R. Bradbury";
 		const char title_d[] = "The Screaming Woman";
-		slice_au = Cut_off_string(author_d, len_author, slice_au); //функция, реализующая защиту от переполнения массива
+		slice_au = Cut_off_string(author_d, len_author, slice_au); 
 		strcpy_s(dynamicBook->author, slice_au);
 		slice_t = Cut_off_string(title_d, len_title, slice_t);
 		strcpy_s(dynamicBook->title, slice_t);
