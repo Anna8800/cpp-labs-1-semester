@@ -9,6 +9,6 @@ struct BOOK {
 	int category;
 };
 
-void printBook(const BOOK& book);
-void initBook(BOOK& book);
-char* getTitle(BOOK& book);
+void printBook(const BOOK& book); //+
+void initBook(BOOK& book); //+
+char* getTitle(BOOK& book); //+

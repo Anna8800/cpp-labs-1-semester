@@ -42,7 +42,7 @@ int countNumberBooks(FILE* file) { //считать количество эле�
 }
 
 void scanBook(FILE* file, BOOK *book) { //сканирует книгу из файла
-	fscanf_s(file, "%49s %99s %hd %lf %d\n", book->author, sizeof(book->author), book->title, sizeof(book->title),
+	fscanf_s(file, "%49s %99s %hd %lf %d\n", book->author, sizeof(book->author) - 1, book->title, sizeof(book->title) - 1,
 		&(book->year), &(book->price), &(book->category));
 }
 
@@ -57,23 +57,24 @@ void loadLibrary(Library* library, const char* names) { //загрузить с�
 			printf("This file is empty!");
 		}
 		else {
-			clearLibrary(*library);
 			//Чтение данных из файла
 			int num_of_elem = countNumberBooks(file); //а) считали количество элементов
-			BOOK** books = new BOOK*[num_of_elem]; //б) создали массив требуемой размерности
-			int cur_index = 0; //отслеживаем, сколько строк считали
-			while (!feof(file) && cur_index < num_of_elem) { //пока не достигли конца файла и загрузили не все элементы
-				books[cur_index] = new BOOK;
-				scanBook(file, books[cur_index]); //в) считали данные из файла в массив
+			int cur_index = library->number; //индекс, с которого начнется добавление новых книг
+			BOOK** new_books = new BOOK*[num_of_elem+cur_index]; //б) создали массив требуемой размерности
+			for (int i = 0; i < cur_index; i++) { // копируем существующие книги во временный массив
+				new_books[i] = library->books[i];
+			}
+			while (cur_index < num_of_elem) { //пока не достигли конца файла и загрузили не все элементы
+				new_books[cur_index] = new BOOK;
+				scanBook(file, new_books[cur_index]); //в) считали данные из файла в массив
 				cur_index++;
 			}
-			library->books = books;
+			library->capacity = cur_index + num_of_elem;
+			library->books = new_books;
 			library->number = cur_index;
-			library->capacity = num_of_elem;
 		}
 		fclose(file);
-	}
-			
+	}		
 }
 
 void clearLibrary(Library &library) { //очистить существующую картотеку (для loadLibrary)
@@ -93,7 +94,7 @@ void printLibrary(const Library& library) { //распечатать содер�
 		}
 	}
 	else {
-		printf("The library is empty!");
+		printf("The library is empty!\n");
 	}
 }
 
@@ -136,42 +137,22 @@ void printTitles(const Library& library) {
 }
 
 void deleteBook(Library& library) { //удалить существующую книгу или диапазон книг 
-	int indexBook;
-	int agreement;
-	printf("Are you sure you want to delete the book? It will be impossible to restore it.\n");
-	printf("If you really want to delete the book, input 1. Else input 0.\n");
-	while (true) {
-		scanf_s("%d", &agreement);
-		if (agreement == 1) {
-			printTitles(library);
-			while (true) {
-				printf("Enter the number of the book to be deleted: ");
-				scanf_s("%d", &indexBook);
-				if (indexBook > 0 && indexBook < library.number + 1) {
-					delete library.books[indexBook - 1];
-					for (int i = indexBook - 1; i < library.number; i++) {
-						library.books[i] = library.books[i + 1];
-					}
-					library.number--;
-					printTitles(library);
-					break;
-				}
-				else {
-					printf("Sorry, the number of book is wrong! Try again \n");
-				}
+	if (library.number != 0) {
+		int indexBook;
+		int Number;
+		perm_delete(library, Number, indexBook);
+		if (indexBook > 0 && indexBook < library.number + 1) {
+			for (int i = indexBook - 1; i < indexBook - 1 + Number; i++) { //удаление
+				delete library.books[i];
 			}
-			break;
-		}
-		else if (agreement==0){
-			printf("Have a nice reading!\n");
-			break;
-		}
-		else {
-			printf("This command is wrong. Try again!\n");
-			while (getchar() != '\n');
-			continue;
+			for (int i = indexBook - 1 + Number; i < library.number; i++) { //смещение номеров оставшихся книг
+				library.books[i - Number] = library.books[i];
+			}
+			library.number -= Number;
+			printTitles(library);
 		}
 	}
+	else { printf("This library is empty!\n"); }
 }
 
 void scanLibrary() { //записать текущее содержимое картотеки в файл 

@@ -33,45 +33,63 @@ void initBook(BOOK& book) { //добавить книгу
 	short year_n;
 	printf("Enter year of publishing: ");
 	while (true) {
-		scanf_s("%hd", &year_n);
-		if ((year_n < -6000) || (year_n > 2023)) {
-			printf("Error! Too small or too big year of publishing. Try again:");
+		if (scanf_s("%hd", &year_n) != 1) { // проверяем успешность считывания значения
+			printf("Invalid input. Please enter a valid number: ");
 			while (getchar() != '\n');
 			continue;
 		}
 		else {
-			book.year = year_n;
-			break;
+			if ((year_n < -6000) || (year_n > 2023)) {
+				printf("Error! Too small or too big year of publishing. Try again:");
+				while (getchar() != '\n');
+				continue;
+			}
+			else {
+				book.year = year_n;
+				break;
+			}
 		}
 	}
 
 	double price_n;
 	printf("Enter price of the book: ");
 	while (true) {
-		scanf_s("%lf", &price_n);
-		if (price_n < 0) {
-			printf("Error! Too small price. Try again:");
+		if (scanf_s("%lf", &price_n) != 1) { // проверяем успешность считывания значения
+			printf("Invalid input. Please enter a valid number: ");
 			while (getchar() != '\n');
 			continue;
 		}
 		else {
-			book.price = price_n;
-			break;
+			if (price_n < 0) {
+				printf("Error! Too small price. Try again:");
+				while (getchar() != '\n');
+				continue;
+			}
+			else {
+				book.price = price_n;
+				break;
+			}
 		}
 	}
 
 	int categor_n;
 	printf("Enter category of the book: (1 - Classic, 2 - Science Fiction, 3 - Fairy Tale, 4 - Short Stories): ");
 	while (true) {
-		scanf_s("%d", &categor_n);
-		if (categor_n >= 0 && categor_n < 5) {
-			book.category = categor_n;
-			break;
-		}
-		else {
-			printf("Wrong value of category! Try again: ");
+		if (scanf_s("%d", &categor_n) != 1) { // проверяем успешность считывания значения
+			printf("Invalid input. Please enter a valid number: ");
 			while (getchar() != '\n');
 			continue;
+		}
+		else {
+			if (categor_n >= 0 && categor_n < 5) {
+				book.category = categor_n;
+				break;
+			}
+			else {
+				printf("Wrong value of category! Try again: ");
+				while (getchar() != '\n');
+				continue;
+			}
 		}
 	}
 }

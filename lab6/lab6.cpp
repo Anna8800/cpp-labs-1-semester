@@ -9,6 +9,7 @@
 #include "support.h"
 #include "book_collection.h"
 #include "book.h" 
+#include <stdio.h> 
 //#include <vld.h>
 #include <cstdio>
 #include <iostream>
@@ -64,16 +65,55 @@ void main()
 
 	Library library;
 	createLibrary(library);
+	const char* names = "names_of_books.txt";
+	char choice = 0;
+	init_readme();
+	bool run = true;
+	while (run) {
+		scanf_s(" %c", &choice, 1);
+		(void)getchar();
+		switch (choice) {
+		case 'l': 
+			//ввести имя файла
+			loadLibrary(&library, names);
+			printf("Loading is comlpleted\n");
+			break;
+		case 'p':
+			printf("Library contents:\n");
+			printLibrary(library);
+			break;
+		case 'a':
+			addBook(library);
+			break;
+		case 'd':
+			deleteBook(library);
+			break;
+		case 'q':
+			printf("Stopping the program\n");
+			run = false;
+			break;
+			/*
+		case 's':
+			scanLibrary(library);
+		case 'r':
+			sortLibrary();
+		case 'b':
+			countBookCategory();
+			*/
+		default: 
+			printf("Invalid letter! Try again: \n");
+			break;
+		}
+	}
 
-	const char* names_of_books = "names_of_books.txt";
-	loadLibrary(&library, "names_of_books.txt");
+	//loadLibrary(&library, "names_of_books2.txt");
 
-	printf("Library contents:\n");
-	printLibrary(library);
+	//printf("Library contents:\n");
+	//printLibrary(library);
 
-	deleteBook(library);
+	//deleteBook(library);
 
-	addBook(library);
+	//addBook(library);
 
 
 
