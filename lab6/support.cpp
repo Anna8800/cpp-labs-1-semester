@@ -90,3 +90,36 @@ void perm_delete(Library& library, int& Number, int& indexBook) { //разреш
 		}
 	}
 }
+
+void input_category(int& categor) {
+	printf("Choose the category:\n");
+	printf("1 - Classic, 2 - Science Fiction, 3 - Fairy Tale, 4 - Short Stories\n");
+	printf("Enter the number of category: ");
+	while (true){
+		if (scanf_s("%d", &categor) != 1) { // проверяем успешность считывания значения
+			printf("Invalid input. Please enter a valid number: ");
+			while (getchar() != '\n');
+			continue;
+		}
+		else {
+			if (categor >= 0 && categor < 5) {
+				break;
+			}
+			else {
+				printf("Wrong value of category! Try again: ");
+				while (getchar() != '\n');
+				continue;
+			}
+		}
+	}
+}
+
+void warning_empty_file() {
+	printf("This file is empty!\n");
+}
+void warning_empty_library() {
+	printf("This library is empty! Please, load books from the file to the library\n");
+}
+void warning_existence_check() {
+	printf("Error: this file doesn't exist.");
+}

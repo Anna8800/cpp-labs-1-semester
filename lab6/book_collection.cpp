@@ -17,7 +17,7 @@ void createLibrary(Library& library) { //создать нулевую карт�
 bool emptyFile(const char* names) { //является ли файл пустым
 	FILE* file;
 	if (fopen_s(&file, names, "r") != 0) { //проверка на существование
-		printf("Error: Failed to open the file.\n");
+		warning_existence_check();
 		return false;
 	}
 	int ch = fgetc(file); //считываем по одному символу из файла
@@ -50,11 +50,11 @@ void loadLibrary(Library* library, const char* names) { //загрузить с�
 	FILE* file;
 	errno_t err = fopen_s(&file, names, "r"); //проверка на существование
 	if (err != 0) {
-		printf("Error: this file doesn't exist.");
+		warning_existence_check();
 	}
 	else {
 		if (emptyFile(names)) {
-			printf("This file is empty!");
+			warning_empty_file();
 		}
 		else {
 			//Чтение данных из файла
@@ -77,6 +77,7 @@ void loadLibrary(Library* library, const char* names) { //загрузить с�
 	}		
 }
 
+/*
 void clearLibrary(Library &library) { //очистить существующую картотеку (для loadLibrary)
 	for (int i = 0; i < library.number; i++) {
 		delete library.books[i];
@@ -84,6 +85,7 @@ void clearLibrary(Library &library) { //очистить существующу�
 	library.number = 0;
 	library.capacity = 0;
 }
+*/
 
 void printLibrary(const Library& library) { //распечатать содержимое картотеки
 	if (library.number != 0) { //если картотека не пуста
@@ -94,7 +96,7 @@ void printLibrary(const Library& library) { //распечатать содер�
 		}
 	}
 	else {
-		printf("The library is empty!\n");
+		warning_empty_library();
 	}
 }
 
@@ -152,13 +154,47 @@ void deleteBook(Library& library) { //удалить существующую к
 			printTitles(library);
 		}
 	}
-	else { printf("This library is empty!\n"); }
+	else { 
+		warning_empty_library();
+	}
 }
 
-void scanLibrary() { //записать текущее содержимое картотеки в файл 
-	//открывает файл для чтения, очищает текущую картотеку и добавляет каждую книгу из файла в картотеку.
+void scanLibrary(Library* library, const char* names) { //записать текущее содержимое картотеки в файл 
+	FILE* file;
+	errno_t err = fopen_s(&file, names, "w"); //проверка на существование
+	if (err != 0) {
+		warning_existence_check();
+	}
+	else {
+		if (library->number == 0) {
+			warning_empty_library();
+		}
+		else {
+			for (int i = 0; i < library->number; i++) {
+				BOOK* book = library->books[i];
+				fprintf(file, "%s %s %hd %.2lf %d \n", book->author, book->title, book->year, book->price, book->category);
+			}
+		}
+		fclose(file);
+		printTitles(*library);
+	}
 }
 
-int countBookCategory() { //ИЗ: по всей картотеке вычислить, сколько книг относится к категории введенной пользователем
-	return 1;
+void countBookCategory(Library* library, const char* names) { //ИЗ: по всей картотеке вычислить, сколько книг относится к категории введенной пользователем
+	int count = 0;
+	int categor;
+	if (library->number == 0) {
+		warning_empty_library();
+	}
+	else {
+		input_category(categor);
+		categor--;
+		for (int i = 0; i < library->number; i++) {
+			BOOK* book = library->books[i];
+			if (book->category == categor) {
+				count++;
+			}
+		}
+	}
+	printf("%d\n",count);
 }

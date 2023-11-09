@@ -73,10 +73,10 @@ void main()
 		scanf_s(" %c", &choice, 1);
 		(void)getchar();
 		switch (choice) {
-		case 'l': 
+		case 'l':
 			//ввести имя файла
 			loadLibrary(&library, names);
-			printf("Loading is comlpleted\n");
+			printf("Loading is completed\n");
 			break;
 		case 'p':
 			printf("Library contents:\n");
@@ -89,41 +89,33 @@ void main()
 			deleteBook(library);
 			break;
 		case 'q':
-			printf("Stopping the program\n");
+			printf("Stopping the program...\n");
 			run = false;
 			break;
-			/*
 		case 's':
-			scanLibrary(library);
+			scanLibrary(&library, names);
+			break;
+		case 'b':
+			countBookCategory(&library, names);
+			break;
+		
+		//динамическую память в конце привести в порядок!
+
+
+		//****************************************************************
+		//Задание 2. Предоставьте пользователю возможность выводить перечень книг
+		//в определенном порядке => напишите функцию (функции) сортировки массива
+		//по любому из полей структуры.
+		//Замечание: признак - "по какому полю сортируем" можно ввести с помощью
+		//перечисления.
+		/*
 		case 'r':
 			sortLibrary();
-		case 'b':
-			countBookCategory();
-			*/
-		default: 
+		*/
+		default:
 			printf("Invalid letter! Try again: \n");
 			break;
 		}
+
 	}
-
-	//loadLibrary(&library, "names_of_books2.txt");
-
-	//printf("Library contents:\n");
-	//printLibrary(library);
-
-	//deleteBook(library);
-
-	//addBook(library);
-
-
-
-
-	//****************************************************************
-	//Задание 2. Предоставьте пользователю возможность выводить перечень книг
-	//в определенном порядке => напишите функцию (функции) сортировки массива
-	//по любому из полей структуры.
-	//Замечание: признак - "по какому полю сортируем" можно ввести с помощью
-	//перечисления.
-
-
 }
