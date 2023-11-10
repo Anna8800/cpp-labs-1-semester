@@ -72,18 +72,29 @@ void loadLibrary(Library* library, const char* names) { //загрузить с�
 			library->capacity = cur_index + num_of_elem;
 			library->books = new_books;
 			library->number = cur_index;
+
 		}
 		fclose(file);
 	}		
 }
 
-/*
-void clearLibrary(Library &library) { //очистить существующую картотеку (для loadLibrary)
+void clearLibrary(Library &library) { //очистить существующую картотеку (для предотвращения утечки памяти)
 	for (int i = 0; i < library.number; i++) {
 		delete library.books[i];
 	}
+	delete[] library.books;
 	library.number = 0;
 	library.capacity = 0;
+	library.books = nullptr;
+	
+}
+
+/*
+void clearNewBooks(BOOK** new_books, int num_of_elem) {
+	for (int i = 0; i < num_of_elem; i++) {
+		delete new_books[i];
+	}
+	delete[] new_books;
 }
 */
 
@@ -133,8 +144,13 @@ void addBook(Library& library) { //добавить новую книгу в к�
 }
 
 void printTitles(const Library& library) {
-	for (int i = 0; i < library.number; i++) {
-		printf("[%d] %s\n", i + 1, getTitle(*library.books[i]));
+	if (library.number != 0) {
+		for (int i = 0; i < library.number; i++) {
+			printf("[%d] %s\n", i + 1, getTitle(*library.books[i]));
+		}
+	}
+	else {
+		warning_empty_library();
 	}
 }
 

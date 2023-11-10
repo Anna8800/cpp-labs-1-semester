@@ -9,4 +9,5 @@ int valid_number(Library& library, int definit, int init_number); //+
 void input_category(int& categor); //+
 void warning_empty_file(); //+
 void warning_empty_library(); //+
-void warning_existence_check();
+void warning_existence_check(); //+
+void choise_field_to_sort(Library& library); //+

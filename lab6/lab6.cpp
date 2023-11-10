@@ -9,8 +9,9 @@
 #include "support.h"
 #include "book_collection.h"
 #include "book.h" 
+#include "sort.h"
 #include <stdio.h> 
-//#include <vld.h>
+#include <vld.h>
 #include <cstdio>
 #include <iostream>
 
@@ -70,9 +71,13 @@ void main()
 	init_readme();
 	bool run = true;
 	while (run) {
-		scanf_s(" %c", &choice, 1);
+		scanf_s(" %c", &choice, 1); //сделать так, чтобы принимал только один символ, 
+		//а не последовательность команд
 		(void)getchar();
 		switch (choice) {
+		case 'h':
+			init_readme();
+			break;
 		case 'l':
 			//ввести имя файла
 			loadLibrary(&library, names);
@@ -82,6 +87,9 @@ void main()
 			printf("Library contents:\n");
 			printLibrary(library);
 			break;
+		case 't':
+			printTitles(library);
+			break;
 		case 'a':
 			addBook(library);
 			break;
@@ -90,6 +98,7 @@ void main()
 			break;
 		case 'q':
 			printf("Stopping the program...\n");
+			clearLibrary(library);
 			run = false;
 			break;
 		case 's':
@@ -101,19 +110,18 @@ void main()
 		
 		//динамическую память в конце привести в порядок!
 
-
 		//****************************************************************
 		//Задание 2. Предоставьте пользователю возможность выводить перечень книг
 		//в определенном порядке => напишите функцию (функции) сортировки массива
 		//по любому из полей структуры.
 		//Замечание: признак - "по какому полю сортируем" можно ввести с помощью
 		//перечисления.
-		/*
 		case 'r':
-			sortLibrary();
-		*/
+			choise_field_to_sort(library);
+			printf("Sorting is completed!");
+			break;
 		default:
-			printf("Invalid letter! Try again: \n");
+			printf("Invalid letter! If you need a help, press [h]. Try again: \n");
 			break;
 		}
 

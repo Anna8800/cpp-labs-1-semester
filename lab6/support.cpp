@@ -1,4 +1,5 @@
 ﻿#include "support.h"
+#include "sort.h"
 #include <iomanip>
 #include <cstdio>
 /*
@@ -10,16 +11,17 @@ support -> модуль ввода/вывода
 подумайте, как организовать функции так, чтобы дублирование было минимально.
 */
 void init_readme() {
-	printf("Hello! Welcome to our book app. ");
 	printf("Possibilities of app:\n");
 	printf("[l] - load books from the file to the library;\n");
 	printf("[p] - print the library;\n");
+	printf("[t] - print titles of the library;\n");
 	printf("[a] - add new book to the library;\n");
 	printf("[d] - delete the book from the library;\n");
 	printf("[s] - save library to the file;\n");
 	printf("[r] - sort books on the field;\n");
 	printf("[b] - count books which relate some category;\n");
 	printf("[q] - stop running the program;\n");
+	printf("[h] - get help;\n");
 	printf("----------------------------\n");
 	printf("Enter [letter] to choose the action.\n");
 }
@@ -93,7 +95,7 @@ void perm_delete(Library& library, int& Number, int& indexBook) { //разреш
 
 void input_category(int& categor) {
 	printf("Choose the category:\n");
-	printf("1 - Classic, 2 - Science Fiction, 3 - Fairy Tale, 4 - Short Stories\n");
+	printf("1 - Classic, 2 - Science Fiction, 3 - Fairy Tale, 4 - Short Stories, 5 - Educational Literature\n");
 	printf("Enter the number of category: ");
 	while (true){
 		if (scanf_s("%d", &categor) != 1) { // проверяем успешность считывания значения
@@ -102,7 +104,7 @@ void input_category(int& categor) {
 			continue;
 		}
 		else {
-			if (categor >= 0 && categor < 5) {
+			if (categor >= 0 && categor < 6) {
 				break;
 			}
 			else {
@@ -122,4 +124,30 @@ void warning_empty_library() {
 }
 void warning_existence_check() {
 	printf("Error: this file doesn't exist.");
+}
+
+void choise_field_to_sort(Library& library) {
+	printf("Please, choose type of sorting:\n");
+	printf("1 - by author, 2 - by title, 3 - by year, 4 - by price, 5 - by category\n");
+	printf("Enter the number of type: ");
+	int comp = 0;
+	while (true) {
+		if (scanf_s("%d", &comp) != 1) { // проверяем успешность считывания значения
+			printf("Invalid input. Please enter a valid number: ");
+			while (getchar() != '\n');
+			continue;
+		}
+		else {
+			if (comp >= 0 && comp < 6) {
+				break;
+			}
+			else {
+				printf("Wrong value of sorting type! Try again: ");
+				while (getchar() != '\n');
+				continue;
+			}
+		}
+	}
+	sortLibrary(library, comparator[comp-1]);
+
 }
