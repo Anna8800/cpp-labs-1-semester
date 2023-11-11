@@ -71,15 +71,13 @@ void main()
 	init_readme();
 	bool run = true;
 	while (run) {
-		scanf_s(" %c", &choice, 1); //сделать так, чтобы принимал только один символ, 
-		//а не последовательность команд
+		scanf_s(" %c", &choice, 1); 
 		(void)getchar();
 		switch (choice) {
 		case 'h':
 			init_readme();
 			break;
 		case 'l':
-			//ввести имя файла
 			loadLibrary(&library, names);
 			printf("Loading is completed\n");
 			break;
@@ -98,7 +96,6 @@ void main()
 			break;
 		case 'q':
 			printf("Stopping the program...\n");
-			clearLibrary(library);
 			run = false;
 			break;
 		case 's':
@@ -108,7 +105,7 @@ void main()
 			countBookCategory(&library, names);
 			break;
 		
-		//динамическую память в конце привести в порядок!
+		
 
 		//****************************************************************
 		//Задание 2. Предоставьте пользователю возможность выводить перечень книг
@@ -124,6 +121,6 @@ void main()
 			printf("Invalid letter! If you need a help, press [h]. Try again: \n");
 			break;
 		}
-
 	}
+	clearLibrary(library);
 }

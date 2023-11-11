@@ -2,14 +2,7 @@
 #include "sort.h"
 #include <iomanip>
 #include <cstdio>
-/*
-support -> модуль ввода/вывода
-Для файлового ввода/вывода используйте функции fprintf и fscanf.
--первичная поддержка пользователя, readme, переход на дальнейшие функции
-Функции ввода/вывода НЕ должны применяться за пределами модуля ввода-вывода. По возможности стараться избегать дублирования кода,
-например, код считывающий структуру с клавиатуры и из файла будет практически одинаковым,
-подумайте, как организовать функции так, чтобы дублирование было минимально.
-*/
+
 void init_readme() {
 	printf("Possibilities of app:\n");
 	printf("[l] - load books from the file to the library;\n");
@@ -104,7 +97,7 @@ void input_category(int& categor) {
 			continue;
 		}
 		else {
-			if (categor >= 0 && categor < 6) {
+			if (categor > 0 && categor < 6) {
 				break;
 			}
 			else {

@@ -7,7 +7,7 @@ const char* category[] = {
 	"Science fiction",
 	"Fairy tale",
 	"Short stories",
-	"Educational Literature"
+	"Educational Literature",
 };
 
 void printBook(const BOOK& book) { //распечатать книгу
@@ -82,8 +82,8 @@ void initBook(BOOK& book) { //добавить книгу
 			continue;
 		}
 		else {
-			if (categor_n >= 0 && categor_n < 6) {
-				book.category = categor_n;
+			if (categor_n > 0 && categor_n < 6) {
+				book.category = categor_n-1;
 				break;
 			}
 			else {

@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 extern const char* category[]; //для исключения множественного определения символов и ошибки линковки
 
 struct BOOK {

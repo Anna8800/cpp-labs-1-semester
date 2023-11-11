@@ -1,15 +1,16 @@
 ﻿#include "book_collection.h"
 #include "support.h"
 #include "book.h"
+#include "sort.h"
 #include <iostream>
 #include <cstdio>
 
-const int init_size = 2; //начальное количество книг в пустой картотеке
+const int init_size = 0; //начальное количество книг в пустой картотеке
 const char* names = "names_of_books.txt";
 
 
 void createLibrary(Library& library) { //создать нулевую картотеку
-	library.books = new BOOK*[init_size];
+	library.books = new BOOK * [init_size];
 	library.number = 0;
 	library.capacity = init_size;
 }
@@ -23,14 +24,14 @@ bool emptyFile(const char* names) { //является ли файл пусты�
 	int ch = fgetc(file); //считываем по одному символу из файла
 	if (ch == EOF) { //если первый символ = символ конца файла, то файл пустой
 		fclose(file);
-		return true; 
+		return true;
 	}
 	fclose(file);
-	return false; 
+	return false;
 }
 
 int countNumberBooks(FILE* file) { //считать количество элементов в файле
-	int num_of_lines=0;
+	int num_of_lines = 0;
 	char ch;
 	while ((ch = fgetc(file)) != EOF) { //пока не дошли до конца файла
 		if (ch == '\n') { //если символ конца строки -> +1 строка
@@ -41,7 +42,7 @@ int countNumberBooks(FILE* file) { //считать количество эле�
 	return num_of_lines;
 }
 
-void scanBook(FILE* file, BOOK *book) { //сканирует книгу из файла
+void scanBook(FILE* file, BOOK* book) { //сканирует книгу из файла
 	fscanf_s(file, "%49s %99s %hd %lf %d\n", book->author, sizeof(book->author) - 1, book->title, sizeof(book->title) - 1,
 		&(book->year), &(book->price), &(book->category));
 }
@@ -60,11 +61,12 @@ void loadLibrary(Library* library, const char* names) { //загрузить с�
 			//Чтение данных из файла
 			int num_of_elem = countNumberBooks(file); //а) считали количество элементов
 			int cur_index = library->number; //индекс, с которого начнется добавление новых книг
-			BOOK** new_books = new BOOK*[num_of_elem+cur_index]; //б) создали массив требуемой размерности
+			BOOK** new_books = new BOOK * [num_of_elem+cur_index]; //б) создали массив требуемой размерности
 			for (int i = 0; i < cur_index; i++) { // копируем существующие книги во временный массив
 				new_books[i] = library->books[i];
 			}
-			while (cur_index < num_of_elem) { //пока не достигли конца файла и загрузили не все элементы
+			int temp = cur_index;
+			while (cur_index < num_of_elem+temp && !feof(file)) { //пока не достигли конца файла и загрузили не все элементы
 				new_books[cur_index] = new BOOK;
 				scanBook(file, new_books[cur_index]); //в) считали данные из файла в массив
 				cur_index++;
@@ -72,13 +74,12 @@ void loadLibrary(Library* library, const char* names) { //загрузить с�
 			library->capacity = cur_index + num_of_elem;
 			library->books = new_books;
 			library->number = cur_index;
-
 		}
 		fclose(file);
-	}		
+	}
 }
 
-void clearLibrary(Library &library) { //очистить существующую картотеку (для предотвращения утечки памяти)
+void clearLibrary(Library& library) { //очистить существующую картотеку
 	for (int i = 0; i < library.number; i++) {
 		delete library.books[i];
 	}
@@ -86,7 +87,6 @@ void clearLibrary(Library &library) { //очистить существующу�
 	library.number = 0;
 	library.capacity = 0;
 	library.books = nullptr;
-	
 }
 
 /*
@@ -131,15 +131,15 @@ void increaseLibrary(Library& library) { //увеличить размер libra
 
 void addBook(Library& library) { //добавить новую книгу в картотеку
 	if (library.number < library.capacity) {
-		appendBook(library); 
+		appendBook(library);
 		if (library.number == library.capacity) {
 			increaseLibrary(library);
 		}
 	}
-		else{
-			increaseLibrary(library);
-			appendBook(library);
-		}
+	else {
+		increaseLibrary(library);
+		appendBook(library);
+	}
 	printTitles(library);
 }
 
@@ -170,7 +170,7 @@ void deleteBook(Library& library) { //удалить существующую к
 			printTitles(library);
 		}
 	}
-	else { 
+	else {
 		warning_empty_library();
 	}
 }
@@ -212,5 +212,5 @@ void countBookCategory(Library* library, const char* names) { //ИЗ: по вс�
 			}
 		}
 	}
-	printf("%d\n",count);
+	printf("%d\n", count);
 }
