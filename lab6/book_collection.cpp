@@ -89,14 +89,6 @@ void clearLibrary(Library& library) { //очистить существующу�
 	library.books = nullptr;
 }
 
-/*
-void clearNewBooks(BOOK** new_books, int num_of_elem) {
-	for (int i = 0; i < num_of_elem; i++) {
-		delete new_books[i];
-	}
-	delete[] new_books;
-}
-*/
 
 void printLibrary(const Library& library) { //распечатать содержимое картотеки
 	if (library.number != 0) { //если картотека не пуста
@@ -116,7 +108,6 @@ void appendBook(Library& library) { //добавить новую книгу
 	initBook(*newBook);
 	library.number++;
 	library.books[library.number - 1] = newBook;
-
 }
 
 void increaseLibrary(Library& library) { //увеличить размер library
@@ -127,6 +118,7 @@ void increaseLibrary(Library& library) { //увеличить размер libra
 	delete[] library.books;
 	library.books = tempbooks;
 	library.capacity++;
+	delete[] tempbooks;
 }
 
 void addBook(Library& library) { //добавить новую книгу в картотеку

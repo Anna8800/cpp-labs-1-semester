@@ -97,6 +97,7 @@ void main()
 		case 'q':
 			printf("Stopping the program...\n");
 			run = false;
+			clearLibrary(library);
 			break;
 		case 's':
 			scanLibrary(&library, names);
@@ -122,5 +123,4 @@ void main()
 			break;
 		}
 	}
-	clearLibrary(library);
 }
