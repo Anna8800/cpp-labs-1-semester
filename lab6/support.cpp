@@ -88,8 +88,7 @@ void perm_delete(Library& library, int& Number, int& indexBook) { //разреш
 
 void input_category(int& categor) {
 	printf("Choose the category:\n");
-	printf("1 - Classic, 2 - Science Fiction, 3 - Fairy Tale, 4 - Short Stories, 5 - Educational Literature\n");
-	printf("Enter the number of category: ");
+	printBookCategory();
 	while (true){
 		if (scanf_s("%d", &categor) != 1) { // проверяем успешность считывания значения
 			printf("Invalid input. Please enter a valid number: ");
@@ -97,7 +96,8 @@ void input_category(int& categor) {
 			continue;
 		}
 		else {
-			if (categor > 0 && categor < 6) {
+			int numCategories = getNumCategories(category);
+			if (categor > 0 && categor <= numCategories) {
 				break;
 			}
 			else {
@@ -109,6 +109,14 @@ void input_category(int& categor) {
 	}
 }
 
+int getNumCategories(const char* arr[]) {
+	int count = 0;
+	while (arr[count] != NULL) {
+		count++;
+	}
+	return count;
+}
+
 void warning_empty_file() {
 	printf("This file is empty!\n");
 }
@@ -116,31 +124,35 @@ void warning_empty_library() {
 	printf("This library is empty! Please, load books from the file to the library\n");
 }
 void warning_existence_check() {
-	printf("Error: this file doesn't exist.");
+	printf("Error: this file doesn't exist.\n");
 }
 
 void choise_field_to_sort(Library& library) {
-	printf("Please, choose type of sorting:\n");
-	printf("1 - by author, 2 - by title, 3 - by year, 4 - by price, 5 - by category\n");
-	printf("Enter the number of type: ");
-	int comp = 0;
-	while (true) {
-		if (scanf_s("%d", &comp) != 1) { // проверяем успешность считывания значения
-			printf("Invalid input. Please enter a valid number: ");
-			while (getchar() != '\n');
-			continue;
-		}
-		else {
-			if (comp >= 0 && comp < 6) {
-				break;
-			}
-			else {
-				printf("Wrong value of sorting type! Try again: ");
+	if (library.number != 0) {
+		printf("Please, choose type of sorting:\n");
+		printf("1 - by author, 2 - by title, 3 - by year, 4 - by price, 5 - by category\n");
+		printf("Enter the number of type: ");
+		int comp = 0;
+		while (true) {
+			if (scanf_s("%d", &comp) != 1) { // проверяем успешность считывания значения
+				printf("Invalid input. Please enter a valid number: ");
 				while (getchar() != '\n');
 				continue;
 			}
+			else {
+				if (comp >= 0 && comp < 6) {
+					break;
+				}
+				else {
+					printf("Wrong value of sorting type! Try again: ");
+					while (getchar() != '\n');
+					continue;
+				}
+			}
 		}
+		sortLibrary(library, comparator[comp - 1]);
 	}
-	sortLibrary(library, comparator[comp-1]);
-
+	else {
+		warning_empty_library();
+	}
 }

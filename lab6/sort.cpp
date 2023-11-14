@@ -51,17 +51,7 @@ void sortLibrary(Library& library, float(*comparator)(const BOOK&, const BOOK&))
 		for (j; j >= 0 && comparator(*book_arr[j], *tmp) > 0; j--) {
 			book_arr[j + 1] = book_arr[j];
 		}
-		/*
 		book_arr[j + 1] = tmp;
-		for (j; j < number; j++) {
-			if (comparator(*book_arr[j], *tmp) > 0){
-				break;
-			}
-			for (int k = i; k > j; k--) {
-				book_arr[k] = book_arr[k - 1];
-			}
-		}
-		*/
-		book_arr[j+1] = tmp;
 	}
+	printf("Sorting is completed!\n");
 }

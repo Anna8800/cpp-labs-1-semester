@@ -8,6 +8,7 @@ const char* category[] = {
 	"Fairy tale",
 	"Short stories",
 	"Educational Literature",
+	"erge",
 };
 
 void printBook(const BOOK& book) { //распечатать книгу
@@ -16,7 +17,7 @@ void printBook(const BOOK& book) { //распечатать книгу
 	printf("Year: %hd\n", book.year);
 	printf("Price: %.2lf\n", book.price);
 	printf("Category: %s\n", category[book.category]);
-	printf(" \n");
+	printf("\n");
 }
 
 void initBook(BOOK& book) { //добавить книгу
@@ -24,8 +25,8 @@ void initBook(BOOK& book) { //добавить книгу
 	const int len_title = 100;
 
 	printf("Enter author of the book: ");
-	scanf_s(" %49[^\n]", book.author, len_author); 
-	while (getchar() != '\n'); 
+	scanf_s(" %49[^\n]", book.author, len_author);
+	while (getchar() != '\n');
 
 	printf("Enter title of the book: ");
 	scanf_s(" %99[^\n]", book.title, len_title);
@@ -41,7 +42,7 @@ void initBook(BOOK& book) { //добавить книгу
 		}
 		else {
 			if ((year_n < -6000) || (year_n > 2023)) {
-				printf("Error! Too small or too big year of publishing. Try again:");
+				printf("Error! Too small or too big year of publishing. Try again: ");
 				while (getchar() != '\n');
 				continue;
 			}
@@ -61,7 +62,7 @@ void initBook(BOOK& book) { //добавить книгу
 			continue;
 		}
 		else {
-			if (price_n < 0) {
+			if (price_n <= 0) {
 				printf("Error! Too small price. Try again:");
 				while (getchar() != '\n');
 				continue;
@@ -74,7 +75,7 @@ void initBook(BOOK& book) { //добавить книгу
 	}
 
 	int categor_n;
-	printf("Enter category of the book: (1 - Classic, 2 - Science Fiction, 3 - Fairy Tale, 4 - Short Stories, 5 - Educational Literature): ");
+	printBookCategory();
 	while (true) {
 		if (scanf_s("%d", &categor_n) != 1) { // проверяем успешность считывания значения
 			printf("Invalid input. Please enter a valid number: ");
@@ -82,7 +83,8 @@ void initBook(BOOK& book) { //добавить книгу
 			continue;
 		}
 		else {
-			if (categor_n > 0 && categor_n < 6) {
+			int numCategories = sizeof(category) / sizeof(category[0]);
+			if (categor_n > 0 && categor_n <= numCategories){
 				book.category = categor_n-1;
 				break;
 			}
@@ -97,4 +99,16 @@ void initBook(BOOK& book) { //добавить книгу
 
 char* getTitle(BOOK& book) { //напечатать оглавления
 	return book.title;
+}
+
+void printBookCategory() {
+	int numCategories = sizeof(category) / sizeof(category[0]);
+	printf("Enter category of the book: (");
+	for (int i = 0; i < numCategories; i++) {
+		printf("%d - %s", i + 1, category[i]);
+		if (i != numCategories - 1) {
+			printf(", ");
+		}
+	}
+	printf("): ");
 }

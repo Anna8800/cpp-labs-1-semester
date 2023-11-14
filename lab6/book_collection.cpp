@@ -43,9 +43,9 @@ int countNumberBooks(FILE* file) { //считать количество эле�
 }
 
 void scanBook(FILE* file, BOOK* book) { //сканирует книгу из файла
-	fscanf_s(file, "%49s %99s %hd %lf %d\n", book->author, sizeof(book->author) - 1, book->title, sizeof(book->title) - 1,
+	fscanf_s(file, "%49[^\t] %99[^\t] %hd %lf %d\n", book->author, sizeof(book->author) - 1, book->title, sizeof(book->title) - 1,
 		&(book->year), &(book->price), &(book->category));
-}
+	}
 
 void loadLibrary(Library* library, const char* names) { //загрузить содержимое из файла в картотеку
 	FILE* file;
@@ -74,6 +74,7 @@ void loadLibrary(Library* library, const char* names) { //загрузить с�
 			library->capacity = cur_index + num_of_elem;
 			library->books = new_books;
 			library->number = cur_index;
+			printf("Loading is completed\n");
 		}
 		fclose(file);
 	}
@@ -92,6 +93,7 @@ void clearLibrary(Library& library) { //очистить существующу�
 
 void printLibrary(const Library& library) { //распечатать содержимое картотеки
 	if (library.number != 0) { //если картотека не пуста
+		printf("Library contents:\n");
 		for (int i = 0; i < library.number; i++) {
 			const BOOK* book = library.books[i];
 			printf("Number of book: %d\n", i + 1);
@@ -135,7 +137,7 @@ void addBook(Library& library) { //добавить новую книгу в к�
 	printTitles(library);
 }
 
-void printTitles(const Library& library) {
+void printTitles(const Library& library) { //напечатать названия книг
 	if (library.number != 0) {
 		for (int i = 0; i < library.number; i++) {
 			printf("[%d] %s\n", i + 1, getTitle(*library.books[i]));
@@ -180,11 +182,11 @@ void scanLibrary(Library* library, const char* names) { //записать те�
 		else {
 			for (int i = 0; i < library->number; i++) {
 				BOOK* book = library->books[i];
-				fprintf(file, "%s %s %hd %.2lf %d \n", book->author, book->title, book->year, book->price, book->category);
+				fprintf(file, "%s\t%s\t%hd\t%.2lf\t%d\n", book->author, book->title, book->year, book->price, book->category);
 			}
+			printTitles(*library);
 		}
 		fclose(file);
-		printTitles(*library);
 	}
 }
 
@@ -203,6 +205,6 @@ void countBookCategory(Library* library, const char* names) { //ИЗ: по вс�
 				count++;
 			}
 		}
+		printf("%d\n", count);
 	}
-	printf("%d\n", count);
 }

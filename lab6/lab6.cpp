@@ -10,11 +10,10 @@
 #include "book_collection.h"
 #include "book.h" 
 #include "sort.h"
+#include "vld.h"
 #include <stdio.h> 
-#include <vld.h>
 #include <cstdio>
 #include <iostream>
-
 #include <fstream>
 #include <iomanip>
 #define	  stop __asm nop	
@@ -79,10 +78,8 @@ void main()
 			break;
 		case 'l':
 			loadLibrary(&library, names);
-			printf("Loading is completed\n");
 			break;
 		case 'p':
-			printf("Library contents:\n");
 			printLibrary(library);
 			break;
 		case 't':
@@ -97,7 +94,6 @@ void main()
 		case 'q':
 			printf("Stopping the program...\n");
 			run = false;
-			clearLibrary(library);
 			break;
 		case 's':
 			scanLibrary(&library, names);
@@ -116,11 +112,11 @@ void main()
 		//перечисления.
 		case 'r':
 			choise_field_to_sort(library);
-			printf("Sorting is completed!");
 			break;
 		default:
 			printf("Invalid letter! If you need a help, press [h]. Try again: \n");
 			break;
 		}
 	}
+	clearLibrary(library);
 }
