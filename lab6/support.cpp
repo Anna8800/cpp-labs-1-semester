@@ -34,13 +34,13 @@ int valid_number(Library& library, int definit, int init_number) {
 			return number;
 			break;
 		}
-		else if (definit == 2 && prob > 0 && (prob + init_number) < library.number + 1) { // 2 - если удаляем диапазон
+		else if (definit == 2 && prob > 0 && (prob - init_number+1) < library.number + 1 && prob < library.number + 1) { // 2 - если удаляем диапазон
 			number = prob;
 			return number;
 			break;
 		}
 		else { //обработка ошибки выхода за границу картотеки
-			printf("Error! Too small or too big number of the book. Try again:");
+			printf("Error! Too small or too big number of the book. Try again: ");
 			while (getchar() != '\n');
 			continue;
 		}
@@ -67,9 +67,30 @@ void perm_delete(Library& library, int& Number, int& indexBook) { //разреш
 		else if (agreement == 2) {
 			printTitles(library);
 			printf("Enter the first number of the book to be deleted: ");
-			indexBook = valid_number(library, 1, 0);
-			printf("Enter the amount of deleted book: ");
-			Number = valid_number(library, 2, indexBook);
+			while (true) {
+				indexBook = valid_number(library, 1, 0);
+				if (indexBook >= library.number) {
+					printf("Error! You can't delete the range of books. Please input a smaller number: ");
+					while (getchar() != '\n');
+					continue;
+				}
+				else {
+					break;
+				}
+			}
+			printf("Enter the last number of the book to be deleted: ");
+			while (true) {
+				int lastBook = valid_number(library, 2, indexBook);
+				if (lastBook < indexBook) {
+					printf("Error! The last book number cannot be smaller than the first book number. Please enter the correct last number: ");
+					while (getchar() != '\n');
+					continue;
+				}
+				else {
+					Number = lastBook - indexBook + 1;
+					break;
+				}
+			}
 			break;
 		}
 		else if (agreement == 0) {
@@ -87,7 +108,7 @@ void perm_delete(Library& library, int& Number, int& indexBook) { //разреш
 }
 
 void input_category(int& categor) {
-	printf("Choose the category:\n");
+	printf("Choose the category: \n");
 	printBookCategory();
 	while (true){
 		if (scanf_s("%d", &categor) != 1) { // проверяем успешность считывания значения
