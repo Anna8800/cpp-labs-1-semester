@@ -39,13 +39,13 @@ int countNumberBooks(FILE* file) { //считать количество эле�
 		}
 	}
 	rewind(file); // перемещаем указатель файла в начало для дальнейшего считывания элементов
-	return num_of_lines;
+return num_of_lines;
 }
 
 void scanBook(FILE* file, BOOK* book) { //сканирует книгу из файла
-	fscanf_s(file, "%49[^\t] %99[^\t] %hd %lf %d\n", book->author, sizeof(book->author) - 1, book->title, sizeof(book->title) - 1,
+	fscanf_s(file, "%50[^\t] %99[^\t] %hd %lf %d\n", book->author, sizeof(book->author) - 1, book->title, sizeof(book->title) - 1,
 		&(book->year), &(book->price), &(book->category));
-	}
+}
 
 void loadLibrary(Library* library, const char* names) { //загрузить содержимое из файла в картотеку
 	FILE* file;
@@ -61,12 +61,12 @@ void loadLibrary(Library* library, const char* names) { //загрузить с�
 			//Чтение данных из файла
 			int num_of_elem = countNumberBooks(file); //а) считали количество элементов
 			int cur_index = library->number; //индекс, с которого начнется добавление новых книг
-			BOOK** new_books = new BOOK * [num_of_elem+cur_index]; //б) создали массив требуемой размерности
+			BOOK** new_books = new BOOK * [num_of_elem + cur_index]; //б) создали массив требуемой размерности
 			for (int i = 0; i < cur_index; i++) { // копируем существующие книги во временный массив
 				new_books[i] = library->books[i];
 			}
 			int temp = cur_index;
-			while (cur_index < num_of_elem+temp && !feof(file)) { //пока не достигли конца файла и загрузили не все элементы
+			while (cur_index < num_of_elem + temp && !feof(file)) { //пока не достигли конца файла и загрузили не все элементы
 				new_books[cur_index] = new BOOK;
 				scanBook(file, new_books[cur_index]); //в) считали данные из файла в массив
 				cur_index++;
@@ -108,19 +108,33 @@ void printLibrary(const Library& library) { //распечатать содер�
 void appendBook(Library& library) { //добавить новую книгу
 	BOOK* newBook = new BOOK();
 	initBook(*newBook);
-	library.number++;
-	library.books[library.number - 1] = newBook;
+	if (strlen(newBook->title) == 0 or strlen(newBook->author) == 0) {
+		delete newBook; // Освобождаем память, выделенную для новой книги
+		return;
+	}
+	else {
+		library.number++;
+		library.books[library.number - 1] = newBook;
+	}
 }
 
-void increaseLibrary(Library& library) { //увеличить размер library
+void increaseLibrary(Library& library) {
 	BOOK** tempbooks = new BOOK * [library.capacity + 1];
 	for (int i = 0; i < library.capacity; i++) {
 		tempbooks[i] = library.books[i];
 	}
+	library.capacity++;
+
 	delete[] library.books;
 	library.books = tempbooks;
-	library.capacity++;
-	delete[] tempbooks;
+}
+
+void decreaseLibrary(Library& library) {
+	if (library.number > 0) {
+		delete library.books[library.number - 1]; // Освобождаем память, выделенную для последней книги
+		library.number--;
+		library.capacity--;
+	}
 }
 
 void addBook(Library& library) { //добавить новую книгу в картотеку
@@ -133,6 +147,9 @@ void addBook(Library& library) { //добавить новую книгу в к�
 	else {
 		increaseLibrary(library);
 		appendBook(library);
+		if (library.books[library.number - 1] == nullptr){
+			decreaseLibrary(library);
+		}
 	}
 	printTitles(library);
 }

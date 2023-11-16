@@ -1,5 +1,5 @@
 ﻿#include "book.h"
-using namespace std;
+//using namespace std;
 #include <iostream>
 
 const char* category[] = {
@@ -11,6 +11,11 @@ const char* category[] = {
 	"erge",
 };
 
+const int len_author = 51;
+const int len_title = 101;
+const int max_input_length = 301; 
+//char input[max_input_length + 1];
+
 void printBook(const BOOK& book) { //распечатать книгу
 	printf("Author: %s\n", book.author);
 	printf("Title: %s\n", book.title);
@@ -20,18 +25,65 @@ void printBook(const BOOK& book) { //распечатать книгу
 	printf("\n");
 }
 
+void str_input(char* str, int& choice, const int allowed_length) {
+	char input[max_input_length];
+	scanf_s(" %300[^\n]", input, max_input_length);
+	input[max_input_length - 1] = '\0';
+
+	if (strlen(input) > allowed_length) {
+		printf("The entered text is too long. Please choose one of the options:\n");
+		printf("If you want to enter a new text, input 1.\n");
+		printf("If you want this text cutted to %d characters, input 2.\n", allowed_length);
+		printf("If you want to cancel entering the text, input 3.\n");
+		printf("Enter your choice: ");
+
+		while (true) {
+			if (scanf_s("%d", &choice) != 1) {
+				printf("Invalid input. Please enter a valid number: ");
+				while (getchar() != '\n');
+				continue;
+			}
+			else {
+				if (choice == 1) {
+					printf("Enter text (you have only %d symbols!): ", allowed_length);
+					while (getchar() != '\n');
+					scanf_s(" %300[^\n]", input, max_input_length);
+					input[allowed_length-1] = '\0';
+					break;
+				}
+				else if (choice == 2) {
+					input[allowed_length - 1] = '\0'; // Обрезаем строку до allowed_length - 1 символов
+					break;
+				}
+				else if (choice == 3) {
+					printf("Entering the text canceled.\n");
+					break;
+				}
+			}
+		}
+	}
+
+	if (choice != 3) {
+		strcpy_s(str, allowed_length, input);
+	}
+
+	while (getchar() != '\n');
+}
+
+
 void initBook(BOOK& book) { //добавить книгу
-	const int len_author = 50;
-	const int len_title = 100;
-
-	printf("Enter author of the book: ");
-	scanf_s(" %49[^\n]", book.author, len_author);
-	while (getchar() != '\n');
-
-	printf("Enter title of the book: ");
-	scanf_s(" %99[^\n]", book.title, len_title);
-	while (getchar() != '\n');
-
+	int choice;
+	printf("Enter author of the book (you have only 50 symbols!): ");
+	str_input(book.author, choice, len_author - 1);
+	if (choice == 3) {
+		return;
+	}
+	choice = 0;
+	printf("Enter title of the book (you have only 100 symbols!): ");
+	str_input(book.title, choice, len_title - 1);
+	if (choice == 3) {
+		return;
+	}
 	short year_n;
 	printf("Enter year of publishing: ");
 	while (true) {
