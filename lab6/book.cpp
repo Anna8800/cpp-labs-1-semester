@@ -15,7 +15,6 @@ const char* category[] = {
 const int len_author = 51;
 const int len_title = 101;
 const int max_input_length = 301; 
-//char input[max_input_length + 1];
 
 void printBook(const BOOK& book) { //распечатать книгу
 	printf("Author: %s\n", book.author);
@@ -168,7 +167,7 @@ void printBookCategory() {
 
 void enterName(char* names) { //ввести название файла с книгами
 	while (true) {
-		printf("Enter the name of the file: ");
+		printf("Enter the name of the current file: ");
 		scanf_s("%255s", (char*)names, 256);
 		FILE* file;
 		if (fopen_s(&file, names, "r") == 0) {

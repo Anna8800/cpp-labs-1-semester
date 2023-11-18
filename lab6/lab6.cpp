@@ -63,11 +63,14 @@ void main()
 	//в) считали данные из файла в массив
 	//}
 
+
+	const char* filename = "recent.txt";
+	print_recent(filename);
 	Library library;
 	createLibrary(library);
 	const char names[256] = "";
 	enterName((char*)names);
-	//const char* names = "names_of_books.txt";
+	recent_files(names, filename);
 	char choice = 0;
 	init_readme();
 	bool run = true;

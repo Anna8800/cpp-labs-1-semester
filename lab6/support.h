@@ -12,3 +12,5 @@ void warning_empty_library(); //+
 void warning_existence_check(); //+
 void choise_field_to_sort(Library& library); 
 int getNumCategories(const char* arr[]);
+void recent_files(const char names[256], const char* filename);
+void print_recent(const char* filename);

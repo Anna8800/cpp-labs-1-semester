@@ -177,3 +177,63 @@ void choise_field_to_sort(Library& library) {
 		warning_empty_library();
 	}
 }
+
+void recent_files(const char names[256], const char* filename) { //последние файлы
+	const int maxNames = 3; //храним только три последних
+	char existingNames[maxNames][256]; //максимально возможный размер имени файла
+	int numExistingNames = 0; 
+	FILE* file;
+	if (fopen_s(&file, filename, "r+") != 0){
+		printf("Error opening file for reading and writing.\n");
+		return;
+	}
+	for (int i = 0; i < maxNames; i++) { //записать содержимое в массив
+		if (fscanf_s(file, "%255s", existingNames[i], sizeof(existingNames[i])) == EOF) {
+			break;
+		}
+		numExistingNames++;
+	}
+	bool isExisting = false; //проверим на наличие этого названия в списке
+	int existingIndex = -1;
+	for (int i = 0; i < numExistingNames; i++) {
+		if (strcmp(names, existingNames[i]) == 0) {
+			isExisting = true;
+			existingIndex = i;
+			break;
+		}
+	}
+	if (isExisting) { //если новое значение уже существует, удаляем его из текущего положения
+		for (int i = existingIndex; i < numExistingNames - 1; i++) {
+			strcpy_s(existingNames[i], sizeof(existingNames[i]), existingNames[i + 1]);
+		}
+		numExistingNames--;
+	}
+	if (numExistingNames >= maxNames) { //если количество значений превышает max, удаляем последнее значение
+		numExistingNames--;
+	}
+	for (int i = numExistingNames; i > 0; i--) {
+		strcpy_s(existingNames[i], sizeof(existingNames[i]), existingNames[i - 1]);
+	}
+	strcpy_s(existingNames[0], sizeof(existingNames[0]), names);
+	numExistingNames++;
+	rewind(file);
+	for (int i = 0; i < numExistingNames; i++) {
+		fprintf(file, "%s\n", existingNames[i]);
+	}
+	fclose(file);
+}
+
+void print_recent(const char* filename) {
+	FILE* file;
+	errno_t err = fopen_s(&file, filename, "r");
+	if (err != 0) {
+		printf("Error opening file for reading.\n");
+		return;
+	}
+	printf("Your recent files: \n");
+	char value[256];
+	while (fscanf_s(file, "%255s", value, sizeof(value)) != EOF) {
+		printf("%s\n", value);
+	}
+	fclose(file);
+}
