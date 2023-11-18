@@ -1,0 +1,7 @@
+J.K. Rowling	Harry Potter and the Sorcerer's Stone	1997	11.99	1
+J.K. Rowling	Harry Potter and the Chamber of Secrets	1998	2.05	1
+J.K. Rowling	Harry Potter and the Prisoner of Azkaban	1999	34.75	1
+J.K. Rowling	Harry Potter and the Goblet of Fire	2000	17.34	1
+J.K. Rowling	Harry Potter and the Order of the Phoenix	2003	21.00	1
+J.K. Rowling	Harry Potter and the Half-Blood Prince	2005	36.10	1
+J.K. Rowling	Harry Potter and the Deathly Hallows	2007	12.12	1
