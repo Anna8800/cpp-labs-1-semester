@@ -1,4 +1,5 @@
 ﻿#include "book.h"
+#include "support.h"
 //using namespace std;
 #include <iostream>
 
@@ -163,4 +164,22 @@ void printBookCategory() {
 		}
 	}
 	printf("): ");
+}
+
+void enterName(char* names) { //ввести название файла с книгами
+	while (true) {
+		printf("Enter the name of the file: ");
+		scanf_s("%255s", (char*)names, 256);
+		FILE* file;
+		if (fopen_s(&file, names, "r") == 0) {
+			if (emptyFile(names)) {
+				warning_empty_file();
+			}
+			fclose(file);
+			break;
+		}
+		else {
+			printf("File does not exist or cannot be opened. Please try again.\n");
+		}
+	}
 }

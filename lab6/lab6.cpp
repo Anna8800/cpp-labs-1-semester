@@ -65,7 +65,9 @@ void main()
 
 	Library library;
 	createLibrary(library);
-	const char* names = "names_of_books.txt";
+	const char names[256] = "";
+	enterName((char*)names);
+	//const char* names = "names_of_books.txt";
 	char choice = 0;
 	init_readme();
 	bool run = true;

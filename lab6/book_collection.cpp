@@ -6,7 +6,6 @@
 #include <cstdio>
 
 const int init_size = 0; //начальное количество книг в пустой картотеке
-const char* names = "names_of_books.txt";
 
 
 void createLibrary(Library& library) { //создать нулевую картотеку
