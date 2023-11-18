@@ -83,10 +83,10 @@ void clearLibrary(Library& library) { //очистить существующу�
 	for (int i = 0; i < library.number; i++) {
 		delete library.books[i];
 	}
-	delete[] library.books;
 	library.number = 0;
 	library.capacity = 0;
 	library.books = nullptr;
+	delete[] library.books;
 }
 
 
@@ -124,7 +124,7 @@ void increaseLibrary(Library& library) {
 	}
 	library.capacity++;
 
-	delete[] library.books;
+	//delete[] library.books;
 	library.books = tempbooks;
 }
 

@@ -21,3 +21,4 @@ char* getTitle(BOOK& book);
 void printBookCategory();
 void str_input(char* str, int& choice, const int allowed_length);
 void enterName(char* names);
+//void str_input(std::string& str, int& choice, const int allowed_length);

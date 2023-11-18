@@ -48,7 +48,7 @@ void str_input(char* str, int& choice, const int allowed_length) {
 					printf("Enter text (you have only %d symbols!): ", allowed_length);
 					while (getchar() != '\n');
 					scanf_s(" %300[^\n]", input, max_input_length);
-					input[allowed_length-1] = '\0';
+					input[allowed_length - 1] = '\0';
 					break;
 				}
 				else if (choice == 2) {
@@ -71,16 +71,17 @@ void str_input(char* str, int& choice, const int allowed_length) {
 }
 
 
+
 void initBook(BOOK& book) { //добавить книгу
 	int choice;
 	printf("Enter author of the book (you have only 50 symbols!): ");
-	str_input(book.author, choice, len_author - 1);
+	str_input(book.author, choice, len_author-1);
 	if (choice == 3) {
 		return;
 	}
 	choice = 0;
 	printf("Enter title of the book (you have only 100 symbols!): ");
-	str_input(book.title, choice, len_title - 1);
+	str_input(book.title, choice, len_title-1);
 	if (choice == 3) {
 		return;
 	}

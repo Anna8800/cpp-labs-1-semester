@@ -10,7 +10,7 @@
 #include "book_collection.h"
 #include "book.h" 
 #include "sort.h"
-#include "vld.h"
+//#include "vld.h"
 #include <stdio.h> 
 #include <cstdio>
 #include <iostream>
