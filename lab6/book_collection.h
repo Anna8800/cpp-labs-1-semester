@@ -9,18 +9,18 @@ struct Library {
 };
 
 
-void createLibrary(Library &library); //+
-bool emptyFile(const char* names_of_books); //+
-int countNumberBooks(FILE *file); //+
-void scanBook(FILE* file, BOOK* Book); // связь с extern
-void loadLibrary (Library* library, const char* names_of_books); //+
-void printLibrary(const Library& Library); //+
-void appendBook(Library& library); //+
-void increaseLibrary(Library& library); //+
+void createLibrary(Library &library); 
+bool emptyFile(const char* names_of_books); 
+int countNumberBooks(FILE *file); 
+void scanBook(FILE* file, BOOK* Book);
+void loadLibrary (Library* library, const char* names_of_books); 
+void printLibrary(const Library& Library); 
+void appendBook(Library& library); 
+void increaseLibrary(Library& library);
 void decreaseLibrary(Library& library);
-void addBook(Library& library); //+
+void addBook(Library& library); 
 void printTitles(const Library& library);
-void deleteBook(Library& library); //+
-void scanLibrary(Library* library, const char* names); //+ 
-void countBookCategory(Library* library, const char* names); //+
+void deleteBook(Library& library); 
+void scanLibrary(Library* library, const char* names);  
+void countBookCategory(Library* library, const char* names); 
 void clearLibrary(Library& library);

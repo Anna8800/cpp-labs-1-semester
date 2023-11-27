@@ -10,12 +10,12 @@
 #include "book_collection.h"
 #include "book.h" 
 #include "sort.h"
-//#include "vld.h"
 #include <stdio.h> 
 #include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <vld.h>
 #define	  stop __asm nop	
 
 

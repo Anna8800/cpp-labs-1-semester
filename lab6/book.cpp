@@ -74,13 +74,13 @@ void str_input(char* str, int& choice, const int allowed_length) {
 
 void initBook(BOOK& book) { //добавить книгу
 	int choice;
-	printf("Enter author of the book (you have only 50 symbols!): ");
+	printf("Enter author of the book (you have only %d symbols!): ", len_author-1);
 	str_input(book.author, choice, len_author-1);
 	if (choice == 3) {
 		return;
 	}
 	choice = 0;
-	printf("Enter title of the book (you have only 100 symbols!): ");
+	printf("Enter title of the book (you have only %d symbols!): ", len_title-1);
 	str_input(book.title, choice, len_title-1);
 	if (choice == 3) {
 		return;

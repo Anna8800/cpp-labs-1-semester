@@ -2,6 +2,7 @@
 #include "support.h"
 #include "book.h"
 #include "sort.h"
+#include "vld.h"
 #include <iostream>
 #include <cstdio>
 
@@ -71,10 +72,12 @@ void loadLibrary(Library* library, const char* names) { //загрузить с�
 				cur_index++;
 			}
 			library->capacity = cur_index + num_of_elem;
+			delete[] library->books;
 			library->books = new_books;
 			library->number = cur_index;
 			printf("Loading is completed\n");
 		}
+		
 		fclose(file);
 	}
 }
@@ -85,8 +88,8 @@ void clearLibrary(Library& library) { //очистить существующу�
 	}
 	library.number = 0;
 	library.capacity = 0;
-	library.books = nullptr;
 	delete[] library.books;
+	//library.books = nullptr;
 }
 
 
@@ -122,9 +125,8 @@ void increaseLibrary(Library& library) {
 	for (int i = 0; i < library.capacity; i++) {
 		tempbooks[i] = library.books[i];
 	}
+	delete[] library.books;
 	library.capacity++;
-
-	//delete[] library.books;
 	library.books = tempbooks;
 }
 
